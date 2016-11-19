@@ -1,0 +1,22 @@
+<!-- <body>
+  {{> login}} <br/>
+  {{> AgentListing}}
+</body> -->
+
+<body>
+    {{#if currentUser}}
+    <div class="app app-default">
+        <aside class="app-sidebar" id="sidebar">
+			     {{ > masterSidebar }}
+        </aside>
+        <div class="app-container">
+    			{{> masterNavbar}}
+    			{{> Template.dynamic template=currentPage}}
+          {{> masterFooter}}  
+        </div>
+    </div>
+    {{else}}
+      <!-- {{> loginButtons}} -->
+      {{> login}}
+    {{/if}}
+</body>

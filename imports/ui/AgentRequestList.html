@@ -1,0 +1,110 @@
+<template name="AgentListing">
+	{{#if currentUser}}
+	{{> floatingActionButton}}
+	<ul class="nav nav-tabs">
+	  <li class="active"><a data-toggle="tab" href="#PendingRequest">Pending Request</a></li>
+	  <li><a data-toggle="tab" href="#ApprovedRequest">Approved Request</a></li>
+	  <li><a data-toggle="tab" href="#RejectedRequest">Rejected Request</a></li>
+	  <li><a data-toggle="tab" href="#KIVRequest">KIV Request</a></li>
+	</ul>
+
+	<div class="tab-content">
+	  <div id="PendingRequest" class="card tab-pane fade in active">
+	  	<div class="card-header">
+	  		<div class="card-title">Pending Approval Request</div>
+	  	</div>
+	  	<div class="card-body">
+	  		{{> reactiveTable collection=PendingApprovalAgent settings=PendingApprovalSettings}}
+		</div>
+	  </div>
+	  <div id="ApprovedRequest" class="card tab-pane fade">
+	  	<div class="card-header">
+	  		<div class="card-title">Approved Agent Request</div>
+	  	</div>
+	  	<div class="card-body">
+	  		{{> reactiveTable collection=ApprovedAgent settings=ApprovedAgentSettings}}
+		</div>
+	  </div>
+	  <div id="RejectedRequest" class="card tab-pane fade">
+	  	<div class="card-header">
+	  		<div class="card-title">Rejected Agent Request</div>
+	  	</div>
+	  	<div class="card-body">
+	  		{{> reactiveTable collection=RejectedAgent settings=RejectedAgentSettings}}
+		</div>
+	  </div>
+	  <div id="KIVRequest" class="card tab-pane fade">
+	  	<div class="card-header">
+	  		<div class="card-title">KIV Agent Request</div>
+	  	</div>
+	  	<div class="card-body">
+	  		{{> reactiveTable collection=KIVAgent settings=KIVAgentSettings}}
+		</div>
+	  </div>
+	</div>
+	{{/if}}
+</template>
+
+<template name="PendingApprovalListAction">
+	<button class="btn ApproveAgent">Approve</button>
+	<button class="btn RejectAgent">Reject</button>
+	<button class="btn KIVAgent">KIV</button>
+</template>
+
+<template name="RequestAgentName">
+    <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{Name}}</button>
+  <!-- <a href="#" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{Name}}</a> -->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+        	<p>Name: {{SelectedAgent.Name}}</p>
+        	<p>Gender: {{SelectedAgent.Gender}}</p>
+        	<hr/>
+        	<strong>Skills</strong>
+
+          <!-- <p>{{SelectedAgent.Name}}</p> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</template>
+
+<template name="RejectedListAction">
+	<button class="btn ApproveAgent">Approve</button>
+	<button class="btn KIVAgent">KIV</button>
+</template>
+
+<template name="KIVListAction">
+	<button class="btn ApproveAgent">Approve</button>
+	<button class="btn RejectAgent">Reject</button>
+</template>
+
+<template name="ModalContent">
+	<!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{Name}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+</template>

@@ -1,0 +1,46 @@
+/* CSS declarations go here */
+.reactive-table-navigation .form-inline input {
+	vertical-align:baseline;
+	width:60px;
+	text-align:center;
+}
+
+.col-action-delete-header {
+	/*width:200px;*/
+}
+
+.action-delete:hover {
+	cursor:pointer;
+	color:red;
+}
+
+#UserMenu {
+    list-style-type: none;
+    padding: 0;
+    display: none;
+	margin: 0px;
+}
+
+
+#logout {
+    display: block;
+}
+
+#HiUser{
+	margin: 0px;
+	text-align: right;
+}
+
+.UserFunctionArea, .LoginButton{
+	float: right;
+}
+
+.btn-facebook{
+	color:#fff;
+	background-color: #3b5998;
+	border-color: rgba(0,0,0,0.2);
+}
+
+.AgentListing{
+	margin:10px;
+}

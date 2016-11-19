@@ -1,0 +1,1 @@
+start cmd.exe /k cd "C:\Users\CalxCalvin\Desktop\Protector\ProtectorAdmin"
