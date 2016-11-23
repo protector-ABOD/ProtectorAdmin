@@ -68,21 +68,37 @@
         <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
         	<ul class="nav nav-tabs">
 			  <li class="active"><a data-toggle="tab" href="#AgentProfile">Profile</a></li>
+			  <li><a data-toggle="tab" href="#EmergencyContact">Emergency Contact</a></li>
+			  <li><a data-toggle="tab" href="#AcademicAchievement">Academic Achievement</a></li>
 			  <li><a data-toggle="tab" href="#AgentSkill">Skill</a></li>
 			</ul>
 			<div class="tab-content" style="max-height: 250px; overflow-y: none;">
 				<div id="AgentProfile" class="card tab-pane fade in active">
-				  	<!-- <div class="card-header">
-				  		<div class="card-title">Profile</div>
-				  	</div> -->
 				  	<div class="card-body">
 				  		<p>First Name: {{SelectedAgent.First_Name}}</p>
 				  		<p>Last Name: {{SelectedAgent.Last_Name}}</p>
 				  		<p>IC Number: {{SelectedAgent.IC_Number}}</p>
 			        	<p>Gender: {{SelectedAgent.Gender}}</p>
 			        	<p>Date Of Birth: {{SelectedAgent.Date_Of_Birth}}</p>
+			        	<p>Race: {{SelectedAgent.Race}}</p>
+			        	<p>Weight: {{SelectedAgent.Weight}} kg</p>
+			        	<p>Height: {{SelectedAgent.Height}} cm</p>
 			        	<p>Contact Number: {{SelectedAgent.Contact_Number}}</p>
 			        	<p>Email: {{SelectedAgent.Email}}</p>
+					</div>
+			    </div>
+				<div id="EmergencyContact" class="card tab-pane fade">
+				  	<div class="card-body">
+				  		{{#each SelectedAgent.Emergency_Contact}}
+					  		<p>Name: {{Name}}</p>
+					  		<p>Relationship: {{Relationship}}</p>
+					  		<p>Contact Number: {{Contact_Number}}</p>
+				  		{{/each}}
+					</div>
+			    </div>
+			    <div id="AcademicAchievement" class="card tab-pane fade">
+				  	<div class="card-body">
+				  		<p>Highest Qualification: {{SelectedAgent.Highest_Qualification}}</p>
 					</div>
 			    </div>
 	        	<div id="AgentSkill" class="card tab-pane fade">
@@ -94,9 +110,11 @@
 						<div class="tab-content" style="max-height: 150px; overflow-y: auto;">
 					  		<div id="MartialArt" class="card tab-pane fade in active">
 							  	<div class="card-body">
-							  		<p>Taekwondo: {{SelectedAgent.Skill.Proficiency_ID}}</p>
-							  		<p>Wushu: {{SelectedAgent.Skill.Proficiency_ID}}</p>
-							  		<p>Karate: {{SelectedAgent.Skill.Proficiency_ID}}</p>
+								  	{{#each SelectedAgent.Skill}}
+								  		<p>{{Skill_ID}}: {{Proficiency_ID}}</p>
+								  		<!-- <p>Wushu: {{Proficiency_ID}}</p>
+								  		<p>Karate: {{Proficiency_ID}}</p> -->
+							  		{{/each}}
 						  		</div>
 					  		</div>
 					  		

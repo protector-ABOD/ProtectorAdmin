@@ -159,13 +159,15 @@ Template.KIVListAction.events({
 
 Template.RequestAgentName.helpers({
 	SelectedAgent(){
+		// var x = Session.get('SelectedAgent');
+		// console.log(Session.get('SelectedAgent'));
 		return Session.get('SelectedAgent');
 	},
 });
 
 Template.RequestAgentName.events({
 	'click .ViewAgentProfile'(){
-		var SelectedAgent = AgentList.findOne({_id : this._id}, {});
+		var SelectedAgent = AgentList.findOne({_id : this._id}, {}).fetch();
 		Session.set('SelectedAgent', SelectedAgent);
 	}
 });
