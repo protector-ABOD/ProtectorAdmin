@@ -1,11 +1,32 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
+import { Accounts } from 'meteor/accounts-base'
 
+import '../../style/Login.css';
+// import '../../style/merged-stylesheets.css';
 import './Login.html';
+
 Template.login.events({
-    '.click #login-button' : function(events){
-      //e.preventDefault();
+    'click #login-form-link' : function(e, t){
+      $("#login-form").delay(100).fadeIn(100);
+      $("#login-buttons").delay(100).fadeIn(100);
+      $("#register-form").fadeOut(100);
+      $('#register-form-link').removeClass('active');
+      $('#login-form-link').addClass('active');
+      e.preventDefault();
+    },
+    'click #register-form-link' : function(e, t){
+      $("#register-form").delay(100).fadeIn(100);
+      $("#login-form").fadeOut(100);
+      $("#login-buttons").fadeOut(100);
+      $('#login-form-link').removeClass('active');
+      $('#register-form-link').addClass('active');
+      e.preventDefault();
+    },
+    'submit #login-form' : function(e, t){
+      e.preventDefault();
+      // retrieve the input field values
       var email = t.find('#login-email').value
         , password = t.find('#login-password').value;
 
@@ -15,44 +36,34 @@ Template.login.events({
         // Meteor.loginWithPassword() function.
         Meteor.loginWithPassword(email, password, function(err){
         if (err){
-          throw new Meteor.Error("Incorrect Username or Password");
+          $("#loginFailModal").modal();
+          //alert("Incorrect Username or Password");
+          // throw new Meteor.Error("Incorrect Username or Password");
         }
       });
          return false; 
     },
-    '.click #signup-button' : function(events){
+    'submit #register-form' : function(e, t){
       e.preventDefault();
-      var email = t.find('#login-email').value
-        , password = t.find('#login-password').value;
+      // retrieve the input field values
+      var username = t.find('#username').value
+        , email = t.find("#email").value
+        , password = t.find("#password").value
 
         // Trim and validate your fields here.... 
 
         // If validation passes, supply the appropriate fields to the
         // Meteor.loginWithPassword() function.
-        Meteor.createUser(email, password, function(err){
+        Accounts.createUser({
+          email: email,
+          password: password,
+          profile:{name: username}
+        }, function(err){
         if (err){
-          throw new Meteor.Error("Incorrect Username or Password");
+          $("#registrationFailModal").modal();
         }
       });
          return false; 
-    },
-    'submit #login-form' : function(e, t){
-      e.preventDefault();
-      // retrieve the input field values
-      //console.log(e.target.id);
-      // var email = t.find('#login-email').value
-      //   , password = t.find('#login-password').value;
-
-      //   // Trim and validate your fields here.... 
-
-      //   // If validation passes, supply the appropriate fields to the
-      //   // Meteor.loginWithPassword() function.
-      //   Meteor.loginWithPassword(email, password, function(err){
-      //   if (err){
-      //     throw new Meteor.Error("Incorrect Username or Password");
-      //   }
-      // });
-      //    return false; 
     },
     'click #facebook-login': function(event) {
 		Meteor.loginWithFacebook({}, function(err){

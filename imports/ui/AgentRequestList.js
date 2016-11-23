@@ -1,29 +1,34 @@
 import { Template } from 'meteor/templating';
-import { AgentRequestList } from '../api/AgentRequest.js';
+import { AgentList } from '../api/AgentRequest.js';
 
 import './AgentRequestList.html';
 
+Template.AgentListing.onCreated(function siteOnCreated() {
+	Meteor.subscribe('Agent');
+});
+
 Template.AgentListing.helpers({
 	PendingApprovalAgent(){
-		return AgentRequestList.find({$and: [{StatusID : 1}]}, {});//Meteor.user().services.facebook.id}]}, {});
+		return AgentList.find({$and: [{Status_ID : 1}]}, {});//Meteor.user().services.facebook.id}]}, {});
 	},
 	ApprovedAgent(){
-		return AgentRequestList.find({$and: [{StatusID : 2}, {ApprovalActionBy : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
+		return AgentList.find({$and: [{Status_ID : 2}, {Approval_Action_By : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
 	},
 	RejectedAgent(){
-		return AgentRequestList.find({$and: [{StatusID : 3}, {ApprovalActionBy : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
+		return AgentList.find({$and: [{Status_ID : 3}, {Approval_Action_By : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
 	},
 	KIVAgent(){
-		return AgentRequestList.find({$and: [{StatusID : 4}, {ApprovalActionBy : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
+		return AgentList.find({$and: [{Status_ID : 4}, {Approval_Action_By : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
 	},
 	PendingApprovalSettings: function () {
         return {
             rowsPerPage: 4,
             showFilter: true,
             fields: [
-				{ key: 'Name', label: 'Name', tmpl: Template.RequestAgentName},
+				{ key: 'First_Name', label: 'Name', tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
-				{ key: 'ICNumber', label:'IC Number' },
+				{ key: 'IC_Number', label:'IC Number' },
+				{ key: 'Contact_Number', label:'Contact Number' },
 				{ key: '', headerClass: 'col-action-delete-header', tmpl: Template.PendingApprovalListAction}
 			]
         };
@@ -33,10 +38,11 @@ Template.AgentListing.helpers({
             rowsPerPage: 10,
             showFilter: true,
             fields: [
-				{ key: 'Name', label: 'Name' },
+				{ key: 'First_Name' + ' ' + 'Last_Name', label: 'Name', tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
-				{ key: 'ICNumber', label:'IC Number' },
-				// { key: '', headerClass: 'col-action-delete-header', tmpl: Template.ApprovalAction}
+				{ key: 'IC_Number', label:'IC Number' },
+				{ key: 'Contact_Number', label:'Contact Number' },
+				{ key: '', headerClass: 'col-action-delete-header', tmpl: Template.ApprovedListAction}
 			]
         };
     },
@@ -45,9 +51,10 @@ Template.AgentListing.helpers({
             rowsPerPage: 10,
             showFilter: true,
             fields: [
-				{ key: 'Name', label: 'Name' },
+				{ key: 'First_Name' + ' ' + 'Last_Name', label: 'Name', tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
-				{ key: 'ICNumber', label:'IC Number' },
+				{ key: 'IC_Number', label:'IC Number' },
+				{ key: 'Contact_Number', label:'Contact Number' },
 				{ key: 'Remark', label:'Remark' },
 				{ key: '', headerClass: 'col-action-delete-header', tmpl: Template.RejectedListAction}
 			]
@@ -58,9 +65,10 @@ Template.AgentListing.helpers({
             rowsPerPage: 10,
             showFilter: true,
             fields: [
-				{ key: 'Name', label: 'Name' },
+				{ key: 'First_Name' + ' ' + 'Last_Name', label: 'Name', tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
-				{ key: 'ICNumber', label:'IC Number' },
+				{ key: 'IC_Number', label:'IC Number' },
+				{ key: 'Contact_Number', label:'Contact Number' },
 				{ key: 'Remark', label:'Remark' },
 				{ key: '', headerClass: 'col-action-delete-header', tmpl: Template.KIVListAction}
 			]
@@ -76,13 +84,12 @@ Template.PendingApprovalListAction.events({
 		});
 	},
 	'click .RejectAgent'(){
-		console.log(this._id);
-		// var RejectReason = prompt("Reason:", "");
-		// Meteor.call('AgentRequest.Reject', {
-		// 	id: this._id,
-		// 	remark: RejectReason,
-		// 	UserID: Meteor.userId()
-		// });
+		var RejectReason = prompt("Reason:", "");
+		Meteor.call('AgentRequest.Reject', {
+			id: this._id,
+			remark: RejectReason,
+			UserID: Meteor.userId()
+		});
 	},
 	'click .KIVAgent'(){
 		var KIVReason = prompt("Reason:", "");
@@ -95,6 +102,25 @@ Template.PendingApprovalListAction.events({
 	'click ViewAgentProfile'(){
 
 	}
+});
+
+Template.ApprovedListAction.events({
+	'click .RejectAgent'(){
+		var RejectReason = prompt("Reason:", "");
+		Meteor.call('AgentRequest.Reject', {
+			id: this._id,
+			remark: RejectReason,
+			UserID: Meteor.userId()
+		});
+	},
+	'click .KIVAgent'(){
+		var KIVReason = prompt("Reason:", "");
+		Meteor.call('AgentRequest.KIV', {
+			id: this._id,
+			remark: KIVReason,
+			UserID: Meteor.userId()
+		});
+	},
 });
 
 Template.RejectedListAction.events({
@@ -139,7 +165,7 @@ Template.RequestAgentName.helpers({
 
 Template.RequestAgentName.events({
 	'click .ViewAgentProfile'(){
-		var SelectedAgent = AgentRequestList.findOne({_id : this._id}, {});
+		var SelectedAgent = AgentList.findOne({_id : this._id}, {});
 		Session.set('SelectedAgent', SelectedAgent);
 	}
 });

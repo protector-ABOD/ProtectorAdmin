@@ -53,23 +53,65 @@
 
 <template name="RequestAgentName">
     <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{Name}}</button>
+  <button type="button" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{First_Name}} {{Last_Name}}</button>
   <!-- <a href="#" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{Name}}</a> -->
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
     
       <!-- Modal content-->
-      <div class="modal-content">
+      <div class="modal-content modal-lg">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">{{SelectedAgent.First_Name}} {{SelectedAgent.Last_Name}}'s Profile</h4>
         </div>
-        <div class="modal-body">
-        	<p>Name: {{SelectedAgent.Name}}</p>
-        	<p>Gender: {{SelectedAgent.Gender}}</p>
-        	<hr/>
-        	<strong>Skills</strong>
+        <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+        	<ul class="nav nav-tabs">
+			  <li class="active"><a data-toggle="tab" href="#AgentProfile">Profile</a></li>
+			  <li><a data-toggle="tab" href="#AgentSkill">Skill</a></li>
+			</ul>
+			<div class="tab-content" style="max-height: 250px; overflow-y: none;">
+				<div id="AgentProfile" class="card tab-pane fade in active">
+				  	<!-- <div class="card-header">
+				  		<div class="card-title">Profile</div>
+				  	</div> -->
+				  	<div class="card-body">
+				  		<p>First Name: {{SelectedAgent.First_Name}}</p>
+				  		<p>Last Name: {{SelectedAgent.Last_Name}}</p>
+				  		<p>IC Number: {{SelectedAgent.IC_Number}}</p>
+			        	<p>Gender: {{SelectedAgent.Gender}}</p>
+			        	<p>Date Of Birth: {{SelectedAgent.Date_Of_Birth}}</p>
+			        	<p>Contact Number: {{SelectedAgent.Contact_Number}}</p>
+			        	<p>Email: {{SelectedAgent.Email}}</p>
+					</div>
+			    </div>
+	        	<div id="AgentSkill" class="card tab-pane fade">
+				  	<div class="card-body">
+					  	<ul class="nav nav-tabs">
+						  <li class="active"><a data-toggle="tab" href="#MartialArt">Martial Arts</a></li>
+						  <li><a data-toggle="tab" href="#Firearms">Fire Arms</a></li>
+						</ul>
+						<div class="tab-content" style="max-height: 150px; overflow-y: auto;">
+					  		<div id="MartialArt" class="card tab-pane fade in active">
+							  	<div class="card-body">
+							  		<p>Taekwondo: {{SelectedAgent.Skill.Proficiency_ID}}</p>
+							  		<p>Wushu: {{SelectedAgent.Skill.Proficiency_ID}}</p>
+							  		<p>Karate: {{SelectedAgent.Skill.Proficiency_ID}}</p>
+						  		</div>
+					  		</div>
+					  		
+				        	<div id="Firearms" class="card tab-pane fade">
+							  	<div class="card-body">
+							  		<p>Pistol: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
+							  		<p>Shotgun: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
+							  		<p>Sub Machine: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
+							  		<p>Rifle: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
+						  		</div>
+					  		</div>
+				  		</div>
+					</div>
+			    </div>
+		    </div>
 
           <!-- <p>{{SelectedAgent.Name}}</p> -->
         </div>
@@ -81,6 +123,11 @@
     </div>
   </div>
 
+</template>
+
+<template name="ApprovedListAction" style="min-width:100px;">
+	<button class="btn RejectAgent">Reject</button>
+	<button class="btn KIVAgent">KIV</button>
 </template>
 
 <template name="RejectedListAction">
