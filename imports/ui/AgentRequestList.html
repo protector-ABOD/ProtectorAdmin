@@ -53,7 +53,7 @@
 
 <template name="RequestAgentName">
     <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{First_Name}} {{Last_Name}}</button>
+  <button type="button" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{FullName}}</button>
   <!-- <a href="#" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{Name}}</a> -->
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -63,7 +63,7 @@
       <div class="modal-content modal-lg">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">{{SelectedAgent.First_Name}} {{SelectedAgent.Last_Name}}'s Profile</h4>
+          <h4 class="modal-title">{{FullName}}'s Profile</h4>
         </div>
         <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
         	<ul class="nav nav-tabs">
@@ -75,45 +75,117 @@
 			<div class="tab-content" style="max-height: 250px; overflow-y: none;">
 				<div id="AgentProfile" class="card tab-pane fade in active">
 				  	<div class="card-body">
-				  		<p>First Name: {{SelectedAgent.First_Name}}</p>
-				  		<p>Last Name: {{SelectedAgent.Last_Name}}</p>
-				  		<p>IC Number: {{SelectedAgent.IC_Number}}</p>
+						<div>
+				  			<div class="ProfileLabel">Name</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.FullName}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">NRIC</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.NRIC}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Gender</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.Gender}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Date Of Birth</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.DateofBirth}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Ethnic</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.Ethnic}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Weight</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.Weight}} kg</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Height</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.Height}} cm</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Contact Number</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.MobileNumber}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Email</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.Email}}</div>
+			  			</div>
+				  		<!-- <p>Name: {{SelectedAgent.FullName}}</p>
+				  		<p>NRIC: {{SelectedAgent.NRIC}}</p>
 			        	<p>Gender: {{SelectedAgent.Gender}}</p>
 			        	<p>Date Of Birth: {{SelectedAgent.Date_Of_Birth}}</p>
-			        	<p>Race: {{SelectedAgent.Race}}</p>
+			        	<p>Ethnic: {{SelectedAgent.Ethnic}}</p>
 			        	<p>Weight: {{SelectedAgent.Weight}} kg</p>
 			        	<p>Height: {{SelectedAgent.Height}} cm</p>
-			        	<p>Contact Number: {{SelectedAgent.Contact_Number}}</p>
-			        	<p>Email: {{SelectedAgent.Email}}</p>
+			        	<p>Contact Number: {{SelectedAgent.MobileNumber}}</p>
+			        	<p>Email: {{SelectedAgent.Email}}</p> -->
 					</div>
 			    </div>
 				<div id="EmergencyContact" class="card tab-pane fade">
 				  	<div class="card-body">
-				  		{{#each SelectedAgent.Emergency_Contact}}
-					  		<p>Name: {{Name}}</p>
-					  		<p>Relationship: {{Relationship}}</p>
-					  		<p>Contact Number: {{Contact_Number}}</p>
+				  		{{#each SelectedAgent.EmergencyContact}}
+				  		<div>
+				  			<div class="ProfileLabel">Name</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{emergencyContactFullName}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Relationship</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{emergencyContactRelationship}}</div>
+			  			</div>
+			  			<div>
+				  			<div class="ProfileLabel">Contact Number</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{emergencyContactMobileNumber}}</div>
+			  			</div>
+					  		<!-- <p>Name: {{emergencyContactFullName}}</p>
+					  		<p>Relationship: {{emergencyContactRelationship}}</p>
+					  		<p>Contact Number: {{emergencyContactMobileNumber}}</p> -->
 				  		{{/each}}
 					</div>
 			    </div>
 			    <div id="AcademicAchievement" class="card tab-pane fade">
 				  	<div class="card-body">
-				  		<p>Highest Qualification: {{SelectedAgent.Highest_Qualification}}</p>
+				  		<div>
+				  			<div class="ProfileLabel">Highest Qualification</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{SelectedAgent.AcademicAttainment}}</div>
+			  			</div>
+				  		<!-- <p>Highest Qualification: {{SelectedAgent.AcademicAttainment}}</p> -->
 					</div>
 			    </div>
 	        	<div id="AgentSkill" class="card tab-pane fade">
 				  	<div class="card-body">
-					  	<ul class="nav nav-tabs">
+				  		{{#each SelectedAgent.Skills}}
+				  		<div>
+				  			<div class="ProfileLabel">{{SkillName}}</div>
+				  			<div class="ProfileColon">: </div>
+				  			<div class="ProfileValue">{{Proficiency}}</div>
+			  			</div>
+					  		<!-- <p>{{SkillName}}: {{Proficiency}}</p> -->
+				  		{{/each}}
+					  	<!-- <ul class="nav nav-tabs">
 						  <li class="active"><a data-toggle="tab" href="#MartialArt">Martial Arts</a></li>
 						  <li><a data-toggle="tab" href="#Firearms">Fire Arms</a></li>
 						</ul>
 						<div class="tab-content" style="max-height: 150px; overflow-y: auto;">
 					  		<div id="MartialArt" class="card tab-pane fade in active">
 							  	<div class="card-body">
-								  	{{#each SelectedAgent.Skill}}
-								  		<p>{{Skill_ID}}: {{Proficiency_ID}}</p>
-								  		<!-- <p>Wushu: {{Proficiency_ID}}</p>
-								  		<p>Karate: {{Proficiency_ID}}</p> -->
+								  	{{#each SelectedAgent.Skills}}
+								  		<p>{{SkillName}}: {{Proficiency}}</p>
+								  		<p>Wushu: {{Proficiency_ID}}</p>
+								  		<p>Karate: {{Proficiency_ID}}</p>
 							  		{{/each}}
 						  		</div>
 					  		</div>
@@ -123,10 +195,10 @@
 							  		<p>Pistol: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
 							  		<p>Shotgun: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
 							  		<p>Sub Machine: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
-							  		<p>Rifle: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
+							  		<p>Rifle: {{SelectedAgent.Skill[1].Proficiency}}</p>
 						  		</div>
 					  		</div>
-				  		</div>
+				  		</div> -->
 					</div>
 			    </div>
 		    </div>

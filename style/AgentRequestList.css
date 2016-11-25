@@ -99,3 +99,11 @@ ul.tab li a:focus, .active {
     from {opacity: 0;}
     to {opacity: 1;}
 }
+
+.ProfileLabel, .ProfileColon, .ProfileValue{
+    display: inline-block;
+}
+
+.ProfileLabel{
+    width: 200px;
+}

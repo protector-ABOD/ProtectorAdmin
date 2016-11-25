@@ -38,10 +38,11 @@ Template.body.onRendered(function(){
 
 Template.body.onCreated(function bodyOnCreated(){
 	// this.state = new ReactiveDict();
-	Session.set('page', 'AgentListing');
 	Meteor.logout(function(err){
 		if (err) {
 			throw new Meteor.Error("Logout failed");
 		}
 	})
+	Session.set('page', 'AgentListing');
+	
 });
