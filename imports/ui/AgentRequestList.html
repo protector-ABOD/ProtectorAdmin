@@ -3,6 +3,7 @@
 	{{> floatingActionButton}}
 	<ul class="nav nav-tabs">
 	  <li class="active"><a data-toggle="tab" href="#PendingRequest">Pending Request</a></li>
+	  <li><a data-toggle="tab" href="#ShortlistedRequest">Shortlisted Request</a></li>
 	  <li><a data-toggle="tab" href="#ApprovedRequest">Approved Request</a></li>
 	  <li><a data-toggle="tab" href="#RejectedRequest">Rejected Request</a></li>
 	  <li><a data-toggle="tab" href="#KIVRequest">KIV Request</a></li>
@@ -15,6 +16,14 @@
 	  	</div>
 	  	<div class="card-body">
 	  		{{> reactiveTable collection=PendingApprovalAgent settings=PendingApprovalSettings}}
+		</div>
+	  </div>
+	  <div id="ShortlistedRequest" class="card tab-pane fade">
+	  	<div class="card-header">
+	  		<div class="card-title">Shortlisted Agent Request</div>
+	  	</div>
+	  	<div class="card-body">
+	  		{{> reactiveTable collection=ShortlistedAgent settings=ShortlistedAgentSettings}}
 		</div>
 	  </div>
 	  <div id="ApprovedRequest" class="card tab-pane fade">
@@ -46,6 +55,10 @@
 </template>
 
 <template name="PendingApprovalListAction">
+	<button class="btn ShortlistAgent">Shortlist</button>
+</template>
+
+<template name="ShortlistListAction">
 	<button class="btn ApproveAgent">Approve</button>
 	<button class="btn RejectAgent">Reject</button>
 	<button class="btn KIVAgent">KIV</button>
@@ -54,7 +67,6 @@
 <template name="RequestAgentName">
     <!-- Trigger the modal with a button -->
   <button type="button" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{FullName}}</button>
-  <!-- <a href="#" class="btn btn-link ViewAgentProfile" data-toggle="modal" data-target="#myModal">{{Name}}</a> -->
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -68,7 +80,7 @@
         <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
         	<ul class="nav nav-tabs">
 			  <li class="active"><a data-toggle="tab" href="#AgentProfile">Profile</a></li>
-			  <li><a data-toggle="tab" href="#EmergencyContact">Emergency Contact</a></li>
+			  <!-- <li><a data-toggle="tab" href="#EmergencyContact">Emergency Contact</a></li> -->
 			  <li><a data-toggle="tab" href="#AcademicAchievement">Academic Achievement</a></li>
 			  <li><a data-toggle="tab" href="#AgentSkill">Skill</a></li>
 			</ul>
@@ -79,6 +91,7 @@
 				  			<div class="ProfileLabel">Name</div>
 				  			<div class="ProfileColon">: </div>
 				  			<div class="ProfileValue">{{SelectedAgent.FullName}}</div>
+				  			<!-- <div class="ProfileValue"><input placeholder="Full Name" type="text" class="form-control" id="Name" value={{SelectedAgent.FullName}}></div> -->
 			  			</div>
 			  			<div>
 				  			<div class="ProfileLabel">NRIC</div>
@@ -96,9 +109,9 @@
 				  			<div class="ProfileValue">{{SelectedAgent.DateofBirth}}</div>
 			  			</div>
 			  			<div>
-				  			<div class="ProfileLabel">Ethnic</div>
+				  			<div class="ProfileLabel">Race</div>
 				  			<div class="ProfileColon">: </div>
-				  			<div class="ProfileValue">{{SelectedAgent.Ethnic}}</div>
+				  			<div class="ProfileValue">{{SelectedAgent.Race}}</div>
 			  			</div>
 			  			<div>
 				  			<div class="ProfileLabel">Weight</div>
@@ -120,15 +133,6 @@
 				  			<div class="ProfileColon">: </div>
 				  			<div class="ProfileValue">{{SelectedAgent.Email}}</div>
 			  			</div>
-				  		<!-- <p>Name: {{SelectedAgent.FullName}}</p>
-				  		<p>NRIC: {{SelectedAgent.NRIC}}</p>
-			        	<p>Gender: {{SelectedAgent.Gender}}</p>
-			        	<p>Date Of Birth: {{SelectedAgent.Date_Of_Birth}}</p>
-			        	<p>Ethnic: {{SelectedAgent.Ethnic}}</p>
-			        	<p>Weight: {{SelectedAgent.Weight}} kg</p>
-			        	<p>Height: {{SelectedAgent.Height}} cm</p>
-			        	<p>Contact Number: {{SelectedAgent.MobileNumber}}</p>
-			        	<p>Email: {{SelectedAgent.Email}}</p> -->
 					</div>
 			    </div>
 				<div id="EmergencyContact" class="card tab-pane fade">
@@ -149,9 +153,6 @@
 				  			<div class="ProfileColon">: </div>
 				  			<div class="ProfileValue">{{emergencyContactMobileNumber}}</div>
 			  			</div>
-					  		<!-- <p>Name: {{emergencyContactFullName}}</p>
-					  		<p>Relationship: {{emergencyContactRelationship}}</p>
-					  		<p>Contact Number: {{emergencyContactMobileNumber}}</p> -->
 				  		{{/each}}
 					</div>
 			    </div>
@@ -162,7 +163,6 @@
 				  			<div class="ProfileColon">: </div>
 				  			<div class="ProfileValue">{{SelectedAgent.AcademicAttainment}}</div>
 			  			</div>
-				  		<!-- <p>Highest Qualification: {{SelectedAgent.AcademicAttainment}}</p> -->
 					</div>
 			    </div>
 	        	<div id="AgentSkill" class="card tab-pane fade">
@@ -173,40 +173,13 @@
 				  			<div class="ProfileColon">: </div>
 				  			<div class="ProfileValue">{{Proficiency}}</div>
 			  			</div>
-					  		<!-- <p>{{SkillName}}: {{Proficiency}}</p> -->
 				  		{{/each}}
-					  	<!-- <ul class="nav nav-tabs">
-						  <li class="active"><a data-toggle="tab" href="#MartialArt">Martial Arts</a></li>
-						  <li><a data-toggle="tab" href="#Firearms">Fire Arms</a></li>
-						</ul>
-						<div class="tab-content" style="max-height: 150px; overflow-y: auto;">
-					  		<div id="MartialArt" class="card tab-pane fade in active">
-							  	<div class="card-body">
-								  	{{#each SelectedAgent.Skills}}
-								  		<p>{{SkillName}}: {{Proficiency}}</p>
-								  		<p>Wushu: {{Proficiency_ID}}</p>
-								  		<p>Karate: {{Proficiency_ID}}</p>
-							  		{{/each}}
-						  		</div>
-					  		</div>
-					  		
-				        	<div id="Firearms" class="card tab-pane fade">
-							  	<div class="card-body">
-							  		<p>Pistol: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
-							  		<p>Shotgun: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
-							  		<p>Sub Machine: {{SelectedAgent.Skill[1].Proficient_ID}}</p>
-							  		<p>Rifle: {{SelectedAgent.Skill[1].Proficiency}}</p>
-						  		</div>
-					  		</div>
-				  		</div> -->
 					</div>
 			    </div>
 		    </div>
-
-          <!-- <p>{{SelectedAgent.Name}}</p> -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
       
@@ -228,20 +201,4 @@
 <template name="KIVListAction">
 	<button class="btn ApproveAgent">Approve</button>
 	<button class="btn RejectAgent">Reject</button>
-</template>
-
-<template name="ModalContent">
-	<!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>{{Name}}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
 </template>

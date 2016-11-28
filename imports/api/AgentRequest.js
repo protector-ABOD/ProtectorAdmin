@@ -3,7 +3,14 @@ import {Mongo} from 'meteor/mongo';
 import {check} from 'meteor/check';
 
 export const SkillList = new Mongo.Collection('Skill',{idGeneration: 'MONGO'});
-export const AgentList = new Mongo.Collection('Agent',{idGeneration: 'MONGO'});
+export const AgentList = new Mongo.Collection('Agent',
+	{
+		idGeneration: 'MONGO',
+		transform: function(agent){
+			agent.SubmissionDate = new Date(agent.CreatedDateTime).toDateString();
+			return agent;
+		}
+	});
 
 if(Meteor.isServer){
 	Meteor.publish('Agent', function(){
@@ -41,22 +48,27 @@ Meteor.methods({
 		// });
 	},
 	
+	'AgentRequest.Shortlist'({id, UserID}){
+		AgentList.update({_id: id}, {$set :{ApplicationStatus : "Shortlisted", ApprovalActionBy: UserID, EditedDateTime : new Date()}});
+		alert('Agent Shortlisted');
+	},
+
 	'AgentRequest.Approve'({id, UserID}){
-		AgentList.update({_id: id}, {$set :{"StatusID": 2, ApprovalActionBy: UserID}});
+		AgentList.update({_id: id}, {$set :{ApplicationStatus : "Approved", ApprovalActionBy: UserID, EditedDateTime : new Date()}});
 		alert('Agent Approved');
 	},
 	
 	'AgentRequest.Reject'({id, remark, UserID}){
-		AgentList.update({_id: id}, {$set :{"StatusID": 3, "Remark": remark, ApprovalActionBy: UserID}});
+		AgentList.update({_id: id}, {$set :{ApplicationStatus : "Rejected", "Remark": remark, ApprovalActionBy: UserID, EditedDateTime : new Date()}});
 		alert('Agent Rejected');
 	},
 	
 	'AgentRequest.KIV'({id, remark, UserID}){
-		AgentList.update({_id: id}, {$set :{"StatusID": 4, "Remark": remark, ApprovalActionBy: UserID}});
+		AgentList.update({_id: id}, {$set :{ApplicationStatus : "Keep in View", "Remark": remark, ApprovalActionBy: UserID, EditedDateTime : new Date()}});
 		alert('Agent KIV');
 	},
 
 	'AgentRequest.Reset'(){
-		AgentList.update({}, {$set: {StatusID : 1, Remark : null}}, {multi: true});
+		AgentList.update({}, {$set: {ApplicationStatus : "Submitted", Remark : null}}, {multi: true});
 	}
 });

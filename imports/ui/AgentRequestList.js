@@ -11,24 +11,19 @@ Template.AgentListing.onCreated(function siteOnCreated() {
 
 Template.AgentListing.helpers({
 	PendingApprovalAgent(){
-		// var agents = AgentList.find({$and: [{StatusID : 1}]}, {});
-		// agents.forEach(function (agent){
-		// 	agent.Skills.forEach(function (skill){
-		//  		console.log(skill.SkillID);
-		//  		var selectedSkill.SkillName = 'Calvin';//SkillList.find({_id : skill.SkillID});
-		// 		console.log(selectedSkill.Skill_Name);
-		// 	})
-		// });
-		return AgentList.find({$and: [{StatusID : 1}]}, {});
+		return AgentList.find({$and: [{ApplicationStatus : "Submitted"}]}, {});
+	},
+	ShortlistedAgent(){
+		return AgentList.find({$and: [{ApplicationStatus : "Shortlisted"}]}, {});	
 	},
 	ApprovedAgent(){
-		return AgentList.find({$and: [{StatusID : 2}, {ApprovalActionBy : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
+		return AgentList.find({$and: [{ApplicationStatus : "Approved"}]}, {});
 	},
 	RejectedAgent(){
-		return AgentList.find({$and: [{StatusID : 3}, {ApprovalActionBy : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
+		return AgentList.find({$and: [{ApplicationStatus : "Rejected"}]}, {});
 	},
 	KIVAgent(){
-		return AgentList.find({$and: [{StatusID : 4}, {ApprovalActionBy : Meteor.userId()}]}, {});//Meteor.user().services.facebook.id}]}, {});
+		return AgentList.find({$and: [{ApplicationStatus : "Keep in View"}]}, {});
 	},
 	PendingApprovalSettings: function () {
         return {
@@ -39,7 +34,21 @@ Template.AgentListing.helpers({
 				{ key: 'Gender', label: 'Gender' },
 				{ key: 'NRIC', label:'IC Number' },
 				{ key: 'MobileNumber', label:'Contact Number' },
+				{ key: 'SubmissionDate', label:'Submission Date' },
 				{ key: '', headerClass: 'col-action-delete-header', tmpl: Template.PendingApprovalListAction}
+			]
+        };
+    },
+    ShortlistedAgentSettings: function () {
+        return {
+            rowsPerPage: 4,
+            showFilter: true,
+            fields: [
+				{ key: 'FullName', label: 'Name', tmpl: Template.RequestAgentName},
+				{ key: 'Gender', label: 'Gender' },
+				{ key: 'NRIC', label:'IC Number' },
+				{ key: 'MobileNumber', label:'Contact Number' },
+				{ key: '', headerClass: 'col-action-delete-header', tmpl: Template.ShortlistListAction}
 			]
         };
     },
@@ -87,6 +96,16 @@ Template.AgentListing.helpers({
 });
 
 Template.PendingApprovalListAction.events({
+	'click .ShortlistAgent'(){
+		console.log('i am in');
+		Meteor.call('AgentRequest.Shortlist', {
+			id: this._id,
+			UserID: Meteor.userId()
+		});
+	}
+});
+
+Template.ShortlistListAction.events({
 	'click .ApproveAgent'(){
 		Meteor.call('AgentRequest.Approve', {
 			id: this._id,
