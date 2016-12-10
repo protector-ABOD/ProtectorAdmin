@@ -11,6 +11,7 @@ export const AgentList = new Mongo.Collection('Agent',
 			return agent;
 		}
 	});
+export const RaceList = new Mongo.Collection('Race', {idGeneration: 'MONGO'});
 
 if(Meteor.isServer){
 	Meteor.publish('Agent', function(){
@@ -20,32 +21,14 @@ if(Meteor.isServer){
 	Meteor.publish('Skill', function(){
 		return SkillList.find();
 	});
+
+	Meteor.publish('Race', function(){
+		return RaceList.find();
+	});
 }
 
 Meteor.methods({
 	'AgentRequest.Insert'({AgentName, UserID}){
-		// console.log(UserID);
-		// check(AgentName, String);
-		// AgentList.insert({
-		// 	First_Name: AgentName,
-		// 	Last_Name: 'Cheah',
-		// 	IC_Number: '000000-00-0000',
-		// 	Date_Of_Birth: '00/00/0000',
-		// 	Gender: "Male",
-		// 	Email: AgentName + "@hotmail.com",
-		// 	Contact_Number: "0164070811",
-		// 	Status_ID: 1,
-		// 	Remark: null,
-		// 	Created_DateTime: new Date(),
-		// 	Created_By: UserID,
-		// 	Last_Edited_DateTime: new Date(),
-		// 	Last_Edited_By: UserID,
-		// 	Approval_Action_By: null,
-		// 	Skill: [{
-		// 				Skill_ID : SkillList.findOne({"Skill_Name" : "Karate"})._id,
-		// 				Proficiency_ID : 1
-		// 			}]
-		// });
 	},
 	
 	'AgentRequest.Shortlist'({id, UserID}){
@@ -70,5 +53,36 @@ Meteor.methods({
 
 	'AgentRequest.Reset'(){
 		AgentList.update({}, {$set: {ApplicationStatus : "Submitted", Remark : null}}, {multi: true});
+	},
+
+	'AgentRequest.UpdateProfile'({
+		id, Race, Height, Weight, MobileNumber, Email, Address, City, State, Postcode, Country,
+		emergencyContactFullName, emergencyContactMobileNumber, emergencyContactRelationship,
+		UserID
+	}){
+		console.log(emergencyContactFullName +', '+emergencyContactMobileNumber+', '+ emergencyContactRelationship);
+		AgentList.update({_id : id}, {
+			$set :{
+				Race: Race,
+				Height: Height, 
+				Weight: Weight, 
+				MobileNumber: MobileNumber, 
+				Email: Email, 
+				Address: Address, 
+				AddressCity: City,
+				AddressState: State,
+				AddressPostcode: Postcode,
+				AddressCountry: Country,
+				EmergencyContact: [{
+					emergencyContactFullName: emergencyContactFullName,
+					emergencyContactRelationship: emergencyContactRelationship,
+					emergencyContactMobileNumber: emergencyContactMobileNumber
+				}],
+				EditedBy: UserID,
+				EditedDateTime: new Date()
+			}},function( error, result) { 
+		    if ( error ) console.log ( error ); //info about what went wrong
+		    if ( result ) Session.set("SaveStatus", "Success"); //the _id of new object if successful
+		  });
 	}
 });
