@@ -1,0 +1,38 @@
+#imaginary_container{
+    margin-top:20%; /* Don't copy this */
+}
+.stylish-input-group .input-group-addon{
+    background: white !important; 
+}
+.stylish-input-group .form-control{
+	border-right:0; 
+	box-shadow:0 0 0; 
+	border-color:#ccc;
+}
+.stylish-input-group button{
+    border:0;
+    background:transparent;
+}
+
+#custom-search-form{
+	margin-top:10px;
+}
+
+.display-profile-half{
+	width: 49.5%;
+	display: inline-block;
+}
+
+.EditProfileBody{
+	width:70%;
+}
+
+.SaveProfileButton{
+	display:inline-block;
+	margin: 10px 0px;
+	float:right;
+}
+
+input.form-control{
+	display:inline-block !important;
+}

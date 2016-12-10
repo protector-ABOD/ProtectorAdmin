@@ -19,8 +19,9 @@ import './masterNavbar.js';
 import './masterFooter.js';
 import './floatingActionButton.js';
 import './dashboard.js';
-import './AgentRequestList.js'
-import './Login.js'
+import './AgentRequestList.js';
+import './EditAgentProfile.js';
+import './Login.js';
 import './body.html';
 
 //collections

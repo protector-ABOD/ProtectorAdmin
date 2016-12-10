@@ -44,7 +44,7 @@ Template.AgentListing.helpers({
             rowsPerPage: 4,
             showFilter: true,
             fields: [
-				{ key: 'FullName', label: 'Name', tmpl: Template.RequestAgentName},
+				{ key: 'FullName', label: 'Name'},//, tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
 				{ key: 'NRIC', label:'IC Number' },
 				{ key: 'MobileNumber', label:'Contact Number' },
@@ -57,7 +57,7 @@ Template.AgentListing.helpers({
             rowsPerPage: 10,
             showFilter: true,
             fields: [
-				{ key: 'FullName', label: 'Name', tmpl: Template.RequestAgentName},
+				{ key: 'FullName', label: 'Name'},//, tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
 				{ key: 'NRIC', label:'IC Number' },
 				{ key: 'MobileNumber', label:'Contact Number' },
@@ -70,7 +70,7 @@ Template.AgentListing.helpers({
             rowsPerPage: 10,
             showFilter: true,
             fields: [
-				{ key: 'FullName', label: 'Name', tmpl: Template.RequestAgentName},
+				{ key: 'FullName', label: 'Name'},//, tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
 				{ key: 'NRIC', label:'IC Number' },
 				{ key: 'MobileNumber', label:'Contact Number' },
@@ -84,7 +84,7 @@ Template.AgentListing.helpers({
             rowsPerPage: 10,
             showFilter: true,
             fields: [
-				{ key: 'FullName', label: 'Name', tmpl: Template.RequestAgentName},
+				{ key: 'FullName', label: 'Name'},//, tmpl: Template.RequestAgentName},
 				{ key: 'Gender', label: 'Gender' },
 				{ key: 'NRIC', label:'IC Number' },
 				{ key: 'MobileNumber', label:'Contact Number' },
@@ -97,7 +97,6 @@ Template.AgentListing.helpers({
 
 Template.PendingApprovalListAction.events({
 	'click .ShortlistAgent'(){
-		console.log('i am in');
 		Meteor.call('AgentRequest.Shortlist', {
 			id: this._id,
 			UserID: Meteor.userId()

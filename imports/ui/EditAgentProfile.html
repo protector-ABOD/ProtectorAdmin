@@ -1,0 +1,133 @@
+<template name="EditAgentProfile">
+	<div class="row card">
+		<form id="custom-search-form">
+			<div class="clearfix">
+			    <div class="reactive-table-options col-sm-8 pull-right">
+			    	<div class="reactive-table-filter form-group col-sm-8 pull-right">
+			            <div id="reactive-table-1-filter" class="input-group">
+			    			<span class="input-group-addon">Search</span>
+						    <input class="reactive-table-input form-control search-query" type="text" placeholder="NRIC">
+			  			</div>
+			        </div>
+			    </div>
+		    </div>
+	    </form>
+	    
+		<div class="card-body">
+			
+				<ul class="nav nav-tabs">
+				  <li class="active"><a data-toggle="tab" href="#BasicProfile">Basic Profile</a></li>
+				  <li><a data-toggle="tab" href="#EmergencyContact">Emergency Contact</a></li>
+				  <!-- <li><a data-toggle="tab" href="#ApprovedRequest">Approved Request</a></li>
+				  <li><a data-toggle="tab" href="#RejectedRequest">Rejected Request</a></li>
+				  <li><a data-toggle="tab" href="#KIVRequest">KIV Request</a></li> -->
+				</ul>
+
+				<div class="tab-content">
+					<div id="BasicProfile" class="card tab-pane fade in active">
+						<!-- <div class="card-header">
+					  		<div class="card-title">Basic Profile</div>
+					  	</div> -->
+					  	<div class="EditProfileBody card-body">
+					  		<div class="display-profile-half">
+								<div class="ProfileLabel">Name</div>
+					  			<div class="ProfileColon">: </div>
+					  			<div class="ProfileValue">{{SearchedAgent.FullName}}</div>
+							</div>
+							<div class="display-profile-half">
+								<div class="ProfileLabel">Race</div>
+					  			<div class="ProfileColon">: </div>
+					  			<div class="ProfileValue">
+					  				<select id="ddlRace" class="form-control" style="margin-bottom: 10px;">
+					  					{{#each RaceItem}}
+					  						<option value={{RaceName}}>{{RaceName}}</option>
+					  					{{/each}}
+					  				</select> 
+								</div>
+							</div>
+							<div class="display-profile-half">
+								<div class="ProfileLabel">NRIC</div>
+					  			<div class="ProfileColon">: </div>
+					  			<div class="ProfileValue">{{SearchedAgent.NRIC}}</div>
+							</div>
+							<div class="display-profile-half">
+								<div class="ProfileLabel">Weight</div>
+					  			<div class="ProfileColon">: </div>
+					  			<div class="ProfileValue"><input placeholder="kg" type="text" class="form-control" id="Weight" value="{{SearchedAgent.Weight}}"></div>
+							</div>
+							<div class="display-profile-half">
+								<div class="ProfileLabel">Mobile Number</div>
+					  			<div class="ProfileColon">: </div>
+					  			<div class="ProfileValue"><input placeholder="MobileNumber" type="text" class="form-control" id="MobileNumber" value={{SearchedAgent.MobileNumber}}></div>
+							</div>
+							<div class="display-profile-half">
+								<div class="ProfileLabel">Height</div>
+					  			<div class="ProfileColon">: </div>
+					  			<div class="ProfileValue"><input placeholder="cm" type="text" class="form-control" id="Height" value="{{SearchedAgent.Height}}"></div>
+							</div>
+							<div class="display-profile-half">
+								<div class="ProfileLabel">Email</div>
+					  			<div class="ProfileColon"> </div>
+					  			<input placeholder="Email" type="text" class="form-control" id="Email" value={{SearchedAgent.Email}}>
+							</div>
+							<div>
+								<div class="ProfileLabel">Address</div><br/>
+								<input style="width:50%;" class="form-control input-sm" placeholder="Address" id="Address" value={{SearchedAgent.Address}}><br />
+								<div class="ProfileValue"><input placeholder="City" type="text" class="form-control input-sm" id="City" value={{SearchedAgent.AddressCity}}></div>
+								<div class="ProfileValue"><input placeholder="State" type="text" class="form-control" id="State" value={{SearchedAgent.AddressState}}></div><br/>
+					  			<div class="ProfileValue"><input placeholder="Postcode" type="text" class="form-control" id="Postcode" value={{SearchedAgent.AddressPostcode}}></div>
+					  			<div class="ProfileValue"><input placeholder="Country" type="text" class="form-control" id="Country" value={{SearchedAgent.AddressCountry}}></div>
+							</div>
+					  	</div>
+					</div>
+					<div id="EmergencyContact" class="card tab-pane fade">
+					  	<div class="card-body">
+						  		<div>
+						  			<div class="ProfileLabel">Name</div>
+						  			<div class="ProfileColon">: </div>
+						  			<div class="ProfileValue"><input placeholder="Full Name" type="text" class="form-control" id="emergencyContactFullName" value={{SearchedAgent.EmergencyContact.[0].emergencyContactFullName}}></div>
+					  			</div>
+					  			<div>
+						  			<div class="ProfileLabel">Relationship</div>
+						  			<div class="ProfileColon">: </div>
+						  			<div class="ProfileValue"><input placeholder="Relationship" type="text" class="form-control" id="emergencyContactRelationship" value={{SearchedAgent.EmergencyContact.[0].emergencyContactRelationship}}></div>
+					  			</div>
+					  			<div>
+						  			<div class="ProfileLabel">Contact Number</div>
+						  			<div class="ProfileColon">: </div>
+						  			<div class="ProfileValue"><input placeholder="Mobile Number" type="text" class="form-control" id="emergencyContactMobileNumber" value={{SearchedAgent.EmergencyContact.[0].emergencyContactMobileNumber}}></div>
+					  			</div>
+						</div>
+				    </div>
+				</div>
+			{{#with SearchedAgent}}
+				<button type="button" class="btn btn-default SaveProfileButton" id="SaveProfile">Save</button>
+			{{else}}
+				<p style="text-align:right;">No Agent Record Found.</p>					
+			{{/with}}
+		</div>
+    	
+	</div>
+	<!--Save Modal -->
+    <div class="modal fade" id="SaveModal" role="dialog">
+        {{>SaveModalTemplate}}    
+    </div>
+</template>
+
+<template name="SaveModalTemplate">
+	<div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Notification</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{SaveStatus}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</template>

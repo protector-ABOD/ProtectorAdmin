@@ -13,10 +13,16 @@ Template.masterSidebar.onRendered(function() {
 });
 
 Template.masterSidebar.events({
-	'click #nav-to-maintenance-site'(event) {
+	'click #nav-to-agent-request-listing'(event) {
 		event.preventDefault();
 		
 		//change page to site maintenace
 		Session.set('page', 'AgentListing');
 	},
+	'click #nav-to-edit-agent-profile'(event) {
+		event.preventDefault();
+		
+		//change page to site maintenace
+		Session.set('page', 'EditAgentProfile');
+	}
 });
